@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
+
+    <h2>Последние публикации</h2>
+
+    {% for post in posts %}
+        <article class="post">
+            <img class="post-image" src="{% static 'images/design.jpg' %}" alt="Современный дизайн">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.preview }}</p>
+            <a href="{% url 'post' %}">Читать далее</a>
+        </article>
+    {% endfor %}
+{% endblock %}
