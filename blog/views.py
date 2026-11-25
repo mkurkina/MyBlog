@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from .models import Review
+from .forms import ReviewForm
 
 
 def main_page(request):
@@ -27,3 +30,22 @@ def post_page(request):
         'title': 'Дизайн в современном мире',
     }
     return render(request, 'post.html', context)
+
+def reviews_page(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('reviews')
+    else:
+        form = ReviewForm()
+
+    reviews = Review.objects.filter(is_checked=True)
+
+    context = {
+        'title': 'Книга отзывов',
+        'form': form,
+        'reviews': reviews,
+    }
+
+    return render(request, 'reviews.html', context)
